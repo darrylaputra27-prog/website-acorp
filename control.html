@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Panel - AKIYAMA CORPORATION</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Inter, Roboto, sans-serif; }
+        body { background-color: #090a09; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column; }
+
+        /* --- NAVBAR --- */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 18px 6%; background-color: #090a09; border-bottom: 1px solid #1a211e; }
+        .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+        .logo-box { width: 44px; height: 44px; background-color: #0d2119; border: 1px solid #164432; border-radius: 10px; display: flex; justify-content: center; align-items: center; padding: 5px; transition: border-color 0.2s; }
+        .brand:hover .logo-box { border-color: #10b981; }
+        .logo-box svg { width: 100%; height: 100%; }
+        .brand-text { display: flex; flex-direction: column; }
+        .brand-title { color: #ffffff; font-weight: 800; font-size: 16px; letter-spacing: 0.5px; }
+        .brand-subtitle { color: #8c9691; font-size: 11px; letter-spacing: 1.5px; margin-top: 2px; }
+        .nav-links { display: flex; gap: 28px; list-style: none; }
+        .nav-links a { text-decoration: none; color: #8c9691; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: #10b981; }
+        .btn-nav-admin { background-color: #133125; color: #10b981; border: 1px solid #10b981; padding: 9px 22px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; }
+
+        /* --- MAIN CONTAINER --- */
+        .control-container { max-width: 1100px; margin: 40px auto; padding: 0 20px; width: 100%; flex: 1; }
+        .control-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #1d2622; padding-bottom: 20px; flex-wrap: wrap; gap: 15px; }
+        .control-header h1 { font-size: 24px; color: #ffffff; }
+        .header-actions { display: flex; gap: 10px; }
+        .btn-reset { background-color: #1f2421; color: #a3ada8; border: 1px solid #323b36; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
+        .btn-reset:hover { background-color: #2b332e; color: #fff; }
+        .btn-logout { background-color: #2b1414; color: #f87171; border: 1px solid #522222; padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
+        .btn-logout:hover { background-color: #3d1a1a; }
+
+        /* Grid Pilihan Menu */
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .menu-card { background-color: #101211; border: 1px solid #1d2622; padding: 24px; border-radius: 12px; transition: all 0.2s; cursor: pointer; }
+        .menu-card:hover, .menu-card.active-card { border-color: #10b981; transform: translateY(-3px); background-color: #131a17; }
+        .menu-card h3 { color: #10b981; font-size: 18px; margin-bottom: 8px; }
+        .menu-card p { color: #8c9691; font-size: 13px; line-height: 1.5; }
+
+        /* Area Form Editor */
+        .editor-section { background-color: #101211; border: 1px solid #10b981; padding: 30px; border-radius: 12px; display: none; margin-bottom: 50px; }
+        .editor-section h2 { font-size: 20px; margin-bottom: 20px; color: #10b981; border-bottom: 1px solid #1d2622; padding-bottom: 12px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; margin-bottom: 6px; color: #d1d5db; font-size: 13px; font-weight: 600; }
+        .form-group input[type="text"], .form-group textarea { width: 100%; padding: 12px; background-color: #090a09; border: 1px solid #222c28; border-radius: 8px; color: #ffffff; font-size: 14px; }
+        .form-group textarea { resize: vertical; height: 85px; }
+        .form-group input:focus, .form-group textarea:focus { border-color: #10b981; outline: none; }
+        
+        /* Styling Color Picker */
+        .color-picker-wrapper { display: flex; align-items: center; gap: 12px; background-color: #090a09; border: 1px solid #222c28; padding: 8px 12px; border-radius: 8px; max-width: 240px; }
+        .color-picker-wrapper input[type="color"] { width: 34px; height: 34px; border: none; background: transparent; cursor: pointer; padding: 0; }
+        .color-hex-text { font-family: monospace; font-size: 14px; color: #a3ada8; text-transform: uppercase; }
+
+        .divider-title { color: #10b981; font-size: 14px; font-weight: 700; margin: 24px 0 12px; padding-top: 16px; border-top: 1px dashed #222c28; }
+        .btn-save { background-color: #10b981; color: #05140e; border: none; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
+        .btn-save:hover { background-color: #0ea572; }
+        
+        .toast { position: fixed; bottom: 25px; right: 25px; background: #10b981; color: #05140e; padding: 14px 24px; border-radius: 10px; font-weight: 700; font-size: 14px; box-shadow: 0 10px 25px rgba(16,185,129,0.3); display: none; z-index: 999; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="home.html" class="brand">
+            <div class="logo-box">
+                <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="akiyamaSwooshControl" x1="12" y1="88" x2="108" y2="22" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#059669" />
+                            <stop offset="50%" stop-color="#10B981" />
+                            <stop offset="100%" stop-color="#6EE7B7" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M24 27C46 18 74 18 96 27V63C96 86 78 100 60 109C42 100 24 86 24 63V27Z" stroke="#10B981" stroke-width="5.5" stroke-linejoin="round"/>
+                    <path d="M60 21L41 64L53 59L60 42L67 52L76 47L60 21Z" fill="#10B981"/>
+                    <path d="M36 75L27 94H43L49 80L36 75Z" fill="#10B981"/>
+                    <path d="M71 66L82 94H96L81 59L71 66Z" fill="#10B981"/>
+                    <path d="M16 93C13 83 22 72 45 64C71 55 94 42 106 16C101 44 82 62 49 74C29 81 20 87 16 93Z" fill="url(#akiyamaSwooshControl)"/>
+                </svg>
+            </div>
+            <div class="brand-text">
+                <span class="brand-title">AKIYAMA</span>
+                <span class="brand-subtitle">CORPORATION</span>
+            </div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="division.html">Division</a></li>
+            <li><a href="structure.html">Structure</a></li>
+            <li><a href="location.html">Location</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <a href="admin.html" class="btn-nav-admin">Admin Panel</a>
+    </nav>
+
+    <div class="control-container">
+        <div class="control-header">
+            <div>
+                <h1>Website Control Panel</h1>
+                <p style="color: #8c9691; font-size: 13px; margin-top: 4px;">Atur teks, warna tulisan, foto, dan tautan secara langsung.</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-reset" onclick="resetAllData()">Reset Default</button>
+                <button class="btn-logout" onclick="handleLogout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="menu-grid">
+            <div class="menu-card" id="card-Home" onclick="openEditor('Home')">
+                <h3>🏠 Home Page</h3>
+                <p>Ubah judul utama, teks sambutan, serta warna tulisan beranda.</p>
+            </div>
+            <div class="menu-card" id="card-About" onclick="openEditor('About')">
+                <h3>📖 About Us</h3>
+                <p>Ubah deskripsi perusahaan, warna teks, serta nama & jabatan CEO.</p>
+            </div>
+            <div class="menu-card" id="card-Division" onclick="openEditor('Division')">
+                <h3>🏢 Division</h3>
+                <p>Ubah nama, deskripsi, warna judul/teks, dan status ke-4 divisi.</p>
+            </div>
+            <div class="menu-card" id="card-Structure" onclick="openEditor('Structure')">
+                <h3>👥 Structure</h3>
+                <p>Atur nama-nama anggota/pejabat di setiap kotak struktur organisasi.</p>
+            </div>
+            <div class="menu-card" id="card-Location" onclick="openEditor('Location')">
+                <h3>📍 Location</h3>
+                <p>Ganti foto gedung Headquarters, teks alamat, dan warna tulisan.</p>
+            </div>
+            <div class="menu-card" id="card-Contact" onclick="openEditor('Contact')">
+                <h3>📞 Contact</h3>
+                <p>Ubah tulisan tombol, warna tulisan tombol, dan link tautan Discord.</p>
+            </div>
+        </div>
+
+        <!-- Area Form Dinamis -->
+        <div class="editor-section" id="editorSection">
+            <h2 id="editorTitle">Edit Content</h2>
+            <form id="dynamicForm" onsubmit="event.preventDefault(); saveFormData();">
+                <div id="formFieldsContainer"></div>
+                <button type="submit" class="btn-save">💾 Simpan & Terapkan Sekarang</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast" id="toastMsg">✅ Perubahan teks & warna berhasil diterapkan!</div>
+
+    <script>
+        window.onload = function() {
+            if (sessionStorage.getItem('isAdminLoggedIn') !== 'true') {
+                window.location.href = 'admin.html';
+            }
+        };
+
+        let currentPage = '';
+
+        const pageConfigs = {
+            'Home': [
+                { key: 'home_title', label: 'Judul Utama Beranda (Bisa pakai <br> untuk baris baru)', type: 'text', defaultVal: 'WELCOME TO <br>AKIYAMA CORPORATION' },
+                { key: 'home_title_color', label: 'Warna Judul Utama', type: 'color', defaultVal: '#FFFFFF' },
+                { key: 'home_desc', label: 'Sub-teks Sambutan', type: 'textarea', defaultVal: 'Ini adalah website resmi Akiyama Corporation' },
+                { key: 'home_desc_color', label: 'Warna Sub-teks Sambutan', type: 'color', defaultVal: '#9CA3AF' }
+            ],
+            'About': [
+                { key: 'about_subtitle', label: 'Deskripsi Atas (Sub-judul)', type: 'textarea', defaultVal: 'A professional integrated service center operating across various strategic sectors, committed to delivering the highest quality standards under solid operational leadership.' },
+                { key: 'about_subtitle_color', label: 'Warna Deskripsi Atas', type: 'color', defaultVal: '#9CA3AF' },
+                { divider: 'Isi Kotak Corporate Overview' },
+                { key: 'about_heading', label: 'Judul Kotak Utama', type: 'text', defaultVal: 'Driven by a Sharp Vision & Professionalism' },
+                { key: 'about_heading_color', label: 'Warna Judul Kotak Utama', type: 'color', defaultVal: '#FFFFFF' },
+                { key: 'about_p1', label: 'Paragraf 1', type: 'textarea', defaultVal: 'Akiyama Corporation is led by Kagami Akiyama as the CEO. With structured and measured management strategies, the company continues to grow rapidly in handling professional divisions.' },
+                { key: 'about_p2', label: 'Paragraf 2', type: 'textarea', defaultVal: 'We believe every client deserves the best service. Through specific division breakdowns ranging from marketing, automotive, building, to homestay provisions, we ensure all needs are met optimally.' },
+                { key: 'about_text_color', label: 'Warna Teks Paragraf 1 & 2', type: 'color', defaultVal: '#D1D5DB' },
+                { divider: 'Profil CEO' },
+                { key: 'about_ceo_name', label: 'Nama Pimpinan / CEO', type: 'text', defaultVal: 'Kagami Akiyama' },
+                { key: 'about_ceo_color', label: 'Warna Nama CEO', type: 'color', defaultVal: '#FFFFFF' },
+                { key: 'about_ceo_role', label: 'Jabatan Pimpinan', type: 'text', defaultVal: 'Chief Executive Officer (CEO)' }
+            ],
+            'Division': [
+                { key: 'div_subtitle', label: 'Deskripsi Atas Halaman Division', type: 'textarea', defaultVal: 'We manage various business pillars and professional services in a structured manner through four main divisions to deliver exceptional results.' },
+                { key: 'div_title_color', label: 'Warna Semua Judul Divisi', type: 'color', defaultVal: '#FFFFFF' },
+                { key: 'div_desc_color', label: 'Warna Semua Deskripsi Divisi', type: 'color', defaultVal: '#D1D5DB' },
+                { divider: 'Division 01' },
+                { key: 'div1_title', label: 'Nama Divisi 1', type: 'text', defaultVal: 'Marketing Division' },
+                { key: 'div1_desc', label: 'Deskripsi Divisi 1', type: 'textarea', defaultVal: 'Fully responsible for promotional strategies, market reach expansion, client handling, and maintaining corporate public relations and image to grow competitively.' },
+                { key: 'div1_status', label: 'Status Divisi 1', type: 'text', defaultVal: 'Status: Active & Operating' },
+                { divider: 'Division 02' },
+                { key: 'div2_title', label: 'Nama Divisi 2', type: 'text', defaultVal: 'Automotive Division' },
+                { key: 'div2_desc', label: 'Deskripsi Divisi 2', type: 'textarea', defaultVal: 'Providing professional automotive services ranging from fleet management, operational vehicle maintenance, to high-quality technical solutions and modifications.' },
+                { key: 'div2_status', label: 'Status Divisi 2', type: 'text', defaultVal: 'Status: Active & Operating' },
+                { divider: 'Division 03' },
+                { key: 'div3_title', label: 'Nama Divisi 3', type: 'text', defaultVal: 'Builder Division' },
+                { key: 'div3_desc', label: 'Deskripsi Divisi 3', type: 'textarea', defaultVal: 'Focusing on architectural planning, construction, physical infrastructure, and property development with high precision, modern design, and solid structures.' },
+                { key: 'div3_status', label: 'Status Divisi 3', type: 'text', defaultVal: 'Status: Active & Operating' },
+                { divider: 'Division 04' },
+                { key: 'div4_title', label: 'Nama Divisi 4', type: 'text', defaultVal: 'Homestay Division' },
+                { key: 'div4_desc', label: 'Deskripsi Divisi 4', type: 'textarea', defaultVal: 'Providing comfortable accommodation and lodging management, cleanliness, and top-tier hospitality services for every guest or client stopping by.' },
+                { key: 'div4_status', label: 'Status Divisi 4', type: 'text', defaultVal: 'Status: Active & Operating' }
+            ],
+            'Structure': [
+                { key: 'struct_commissioner', label: 'Commissioner (Pisahkan dengan koma jika lebih dari 1)', type: 'text', defaultVal: 'Kagami Commissioner' },
+                { key: 'struct_ceo', label: 'Chief Executive Officer (CEO)', type: 'text', defaultVal: 'Kagami Akiyama' },
+                { key: 'struct_vice_ceo', label: 'Vice Chief Executive Officer', type: 'text', defaultVal: 'Harumi Kobayashi' },
+                { key: 'struct_director', label: 'Director', type: 'text', defaultVal: 'Director Representative' },
+                { key: 'struct_finance', label: 'Manager of Finance', type: 'text', defaultVal: 'Finance Manager Lead' },
+                { key: 'struct_operational', label: 'Manager of Operational', type: 'text', defaultVal: 'Operational Manager Lead' },
+                { key: 'struct_hr', label: 'Manager of Human Resource', type: 'text', defaultVal: 'HR Manager Lead' },
+                { divider: 'Heads & Staff (Pisahkan nama dengan tanda koma)' },
+                { key: 'struct_head_marketing', label: 'Head of Marketing', type: 'text', defaultVal: 'Marketing Head Lead' },
+                { key: 'struct_staff_marketing', label: 'Marketing Staff', type: 'text', defaultVal: 'Staff Marketing 1, Staff Marketing 2, Staff Marketing 3, Staff Marketing 4' },
+                { key: 'struct_head_automotive', label: 'Head of Automotive', type: 'text', defaultVal: 'Automotive Head Lead' },
+                { key: 'struct_staff_automotive', label: 'Automotive Staff', type: 'text', defaultVal: 'Staff Automotive 1, Staff Automotive 2, Staff Automotive 3, Staff Automotive 4' },
+                { key: 'struct_head_builder', label: 'Head of Builder', type: 'text', defaultVal: 'Builder Head Lead' },
+                { key: 'struct_staff_builder', label: 'Builder Staff', type: 'text', defaultVal: 'Staff Builder 1, Staff Builder 2, Staff Builder 3, Staff Builder 4' }
+            ],
+            'Location': [
+                { key: 'loc_img', label: 'URL Foto Lokasi Headquarters', type: 'text', defaultVal: 'https://cdn.discordapp.com/attachments/1562155677986594869/1565032577792868564/akiyama_headquarter.png?ex=6afbd16b&is=6afa7feb&hm=8d0d3bd1781e417e4111650f4f01fe1237ea22db7c90e241418f83daa7013507' },
+                { key: 'loc_address', label: 'Alamat / Nama Lokasi', type: 'textarea', defaultVal: 'Jl. Utama Akiyama Headquarters, Los Santos / San Andreas' },
+                { key: 'loc_address_color', label: 'Warna Teks Alamat', type: 'color', defaultVal: '#9CA3AF' }
+            ],
+            'Contact': [
+                { divider: 'Tombol Kontak Atas' },
+                { key: 'contact_btn1_text', label: 'Teks Tombol Atas', type: 'text', defaultVal: 'JOIN DISCORD ACORP' },
+                { key: 'contact_btn1_color', label: 'Warna Teks Tombol Atas', type: 'color', defaultVal: '#FFFFFF' },
+                { key: 'contact_btn1_link', label: 'Link URL Tombol Atas', type: 'text', defaultVal: 'https://discord.com/invite/jC3eMwbMsU' },
+                { divider: 'Tombol Kontak Bawah' },
+                { key: 'contact_btn2_text', label: 'Teks Tombol Bawah', type: 'text', defaultVal: 'DISCORD KAGAMI AKIYAMA' },
+                { key: 'contact_btn2_color', label: 'Warna Teks Tombol Bawah', type: 'color', defaultVal: '#FFFFFF' },
+                { key: 'contact_btn2_link', label: 'Link URL Tombol Bawah', type: 'text', defaultVal: '#' }
+            ]
+        };
+
+        function openEditor(pageName) {
+            currentPage = pageName;
+            document.querySelectorAll('.menu-card').forEach(c => c.classList.remove('active-card'));
+            document.getElementById('card-' + pageName).classList.add('active-card');
+
+            const section = document.getElementById('editorSection');
+            const title = document.getElementById('editorTitle');
+            const container = document.getElementById('formFieldsContainer');
+            
+            title.innerText = 'Mengatur Konten & Warna Halaman: ' + pageName;
+            container.innerHTML = '';
+
+            const savedData = JSON.parse(localStorage.getItem('akiyama_cms_data') || '{}');
+            const fields = pageConfigs[pageName];
+
+            fields.forEach(item => {
+                if (item.divider) {
+                    container.innerHTML += `<div class="divider-title">${item.divider}</div>`;
+                    return;
+                }
+                const currentVal = savedData[item.key] !== undefined ? savedData[item.key] : item.defaultVal;
+                
+                if (item.type === 'color') {
+                    container.innerHTML += `
+                        <div class="form-group">
+                            <label>${item.label}</label>
+                            <div class="color-picker-wrapper">
+                                <input type="color" data-key="${item.key}" value="${currentVal}" oninput="this.nextElementSibling.innerText = this.value">
+                                <span class="color-hex-text">${currentVal}</span>
+                            </div>
+                        </div>`;
+                } else if (item.type === 'textarea') {
+                    container.innerHTML += `
+                        <div class="form-group">
+                            <label>${item.label}</label>
+                            <textarea data-key="${item.key}">${currentVal}</textarea>
+                        </div>`;
+                } else {
+                    container.innerHTML += `
+                        <div class="form-group">
+                            <label>${item.label}</label>
+                            <input type="text" data-key="${item.key}" value="${currentVal.replace(/"/g, '&quot;')}">
+                        </div>`;
+                }
+            });
+
+            section.style.display = 'block';
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function saveFormData() {
+            const savedData = JSON.parse(localStorage.getItem('akiyama_cms_data') || '{}');
+            const inputs = document.querySelectorAll('#formFieldsContainer [data-key]');
+            
+            inputs.forEach(input => {
+                const key = input.getAttribute('data-key');
+                savedData[key] = input.value;
+            });
+
+            localStorage.setItem('akiyama_cms_data', JSON.stringify(savedData));
+            
+            const toast = document.getElementById('toastMsg');
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+        }
+
+        function resetAllData() {
+            if (confirm('Yakin ingin mengembalikan semua teks, warna, gambar, dan link ke pengaturan awal website?')) {
+                localStorage.removeItem('akiyama_cms_data');
+                alert('Semua konten & warna berhasil dikembalikan ke bawaan awal!');
+                if (currentPage) openEditor(currentPage);
+            }
+        }
+
+        function handleLogout() {
+            sessionStorage.removeItem('isAdminLoggedIn');
+            window.location.href = 'admin.html';
+        }
+    </script>
+</body>
+</html>

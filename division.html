@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divisions - Akiyama Corporation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { brand: { DEFAULT: '#10B981', dark: '#059669', black: '#0A0A0A', card: '#121212', border: '#222222' } }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-brand-black text-gray-100 font-sans antialiased selection:bg-brand selection:text-black">
+
+    <header class="sticky top-0 z-50 bg-brand-black/80 backdrop-blur-md border-b border-brand-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="home.html" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-xl bg-brand/10 border border-brand/25 flex items-center justify-center p-1.5 group-hover:border-brand/50 transition-all">
+                    <svg viewBox="0 0 120 120" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="akiyamaSwoosh" x1="12" y1="88" x2="108" y2="22" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#059669" />
+                                <stop offset="50%" stop-color="#10B981" />
+                                <stop offset="100%" stop-color="#6EE7B7" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M24 27C46 18 74 18 96 27V63C96 86 78 100 60 109C42 100 24 86 24 63V27Z" stroke="#10B981" stroke-width="5.5" stroke-linejoin="round"/>
+                        <path d="M60 21L41 64L53 59L60 42L67 52L76 47L60 21Z" fill="#10B981"/>
+                        <path d="M36 75L27 94H43L49 80L36 75Z" fill="#10B981"/>
+                        <path d="M71 66L82 94H96L81 59L71 66Z" fill="#10B981"/>
+                        <path d="M16 93C13 83 22 72 45 64C71 55 94 42 106 16C101 44 82 62 49 74C29 81 20 87 16 93Z" fill="url(#akiyamaSwoosh)"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="font-bold text-lg tracking-wider text-white">AKIYAMA</span>
+                    <span class="text-xs block text-gray-400 tracking-widest">CORPORATION</span>
+                </div>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+                <a href="home.html" class="text-gray-400 hover:text-brand transition-colors">Home</a>
+                <a href="about.html" class="text-gray-400 hover:text-brand transition-colors">About Us</a>
+                <a href="division.html" class="text-brand transition-colors font-semibold">Division</a>
+                <a href="structure.html" class="text-gray-400 hover:text-brand transition-colors">Structure</a>
+                <a href="location.html" class="text-gray-400 hover:text-brand transition-colors">Location</a>
+                <a href="contact.html" class="text-gray-400 hover:text-brand transition-colors">Contact</a>
+            </nav>
+
+            <div class="hidden md:flex items-center">
+                <a href="admin.html" id="admin-nav-btn" class="px-4 py-2 rounded-xl text-xs font-semibold tracking-wider bg-brand/10 border border-brand/30 text-brand hover:bg-brand hover:text-black transition-all duration-300 shadow-sm shadow-brand/5">Admin Panel</a>
+            </div>
+
+            <button id="menu-btn" class="md:hidden text-gray-400 hover:text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-card border-b border-brand-border px-4 pt-2 pb-4 space-y-3">
+            <a href="home.html" class="block text-gray-300 hover:text-brand py-2">Home</a>
+            <a href="about.html" class="block text-gray-300 hover:text-brand py-2">About Us</a>
+            <a href="division.html" class="block text-brand py-2 font-semibold">Division</a>
+            <a href="structure.html" class="block text-gray-300 hover:text-brand py-2">Structure</a>
+            <a href="location.html" class="block text-gray-300 hover:text-brand py-2">Location</a>
+            <a href="contact.html" class="block text-gray-300 hover:text-brand py-2">Contact</a>
+            <div class="pt-2 border-t border-brand-border">
+                <a href="admin.html" id="mobile-admin-btn" class="block text-center py-2.5 rounded-xl bg-brand/10 border border-brand/30 text-brand text-xs font-semibold tracking-wider hover:bg-brand hover:text-black transition-all">Admin Panel</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
+        <div class="text-center space-y-4 max-w-3xl mx-auto">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Operational Divisions of <span class="text-brand">Akiyama Corporation</span></h1>
+            <p id="cms-div-subtitle" class="text-gray-400 text-sm sm:text-base leading-relaxed">
+                We manage various business pillars and professional services in a structured manner through four main divisions to deliver exceptional results.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-brand-card border border-brand-border rounded-3xl p-8 space-y-6 hover:border-brand/50 transition-colors">
+                <div class="w-14 h-14 rounded-2xl bg-brand/10 border border-brand/20 flex items-center justify-center text-brand text-2xl font-bold">📈</div>
+                <div class="space-y-2">
+                    <span class="text-xs font-bold text-brand uppercase tracking-wider">Division 01</span>
+                    <h3 id="cms-div1-title" class="text-2xl font-bold text-white">Marketing Division</h3>
+                </div>
+                <p id="cms-div1-desc" class="text-gray-300 text-sm leading-relaxed">
+                    Fully responsible for promotional strategies, market reach expansion, client handling, and maintaining corporate public relations and image to grow competitively.
+                </p>
+                <div class="pt-4 border-t border-brand-border flex items-center justify-between text-xs text-gray-400">
+                    <span id="cms-div1-status">Status: Active & Operating</span>
+                    <a href="contact.html" class="text-brand hover:underline font-medium">Contact Division →</a>
+                </div>
+            </div>
+
+            <div class="bg-brand-card border border-brand-border rounded-3xl p-8 space-y-6 hover:border-brand/50 transition-colors">
+                <div class="w-14 h-14 rounded-2xl bg-brand/10 border border-brand/20 flex items-center justify-center text-brand text-2xl font-bold">🚗</div>
+                <div class="space-y-2">
+                    <span class="text-xs font-bold text-brand uppercase tracking-wider">Division 02</span>
+                    <h3 id="cms-div2-title" class="text-2xl font-bold text-white">Automotive Division</h3>
+                </div>
+                <p id="cms-div2-desc" class="text-gray-300 text-sm leading-relaxed">
+                    Providing professional automotive services ranging from fleet management, operational vehicle maintenance, to high-quality technical solutions and modifications.
+                </p>
+                <div class="pt-4 border-t border-brand-border flex items-center justify-between text-xs text-gray-400">
+                    <span id="cms-div2-status">Status: Active & Operating</span>
+                    <a href="contact.html" class="text-brand hover:underline font-medium">Contact Division →</a>
+                </div>
+            </div>
+
+            <div class="bg-brand-card border border-brand-border rounded-3xl p-8 space-y-6 hover:border-brand/50 transition-colors">
+                <div class="w-14 h-14 rounded-2xl bg-brand/10 border border-brand/20 flex items-center justify-center text-brand text-2xl font-bold">🏗️</div>
+                <div class="space-y-2">
+                    <span class="text-xs font-bold text-brand uppercase tracking-wider">Division 03</span>
+                    <h3 id="cms-div3-title" class="text-2xl font-bold text-white">Builder Division</h3>
+                </div>
+                <p id="cms-div3-desc" class="text-gray-300 text-sm leading-relaxed">
+                    Focusing on architectural planning, construction, physical infrastructure, and property development with high precision, modern design, and solid structures.
+                </p>
+                <div class="pt-4 border-t border-brand-border flex items-center justify-between text-xs text-gray-400">
+                    <span id="cms-div3-status">Status: Active & Operating</span>
+                    <a href="contact.html" class="text-brand hover:underline font-medium">Contact Division →</a>
+                </div>
+            </div>
+
+            <div class="bg-brand-card border border-brand-border rounded-3xl p-8 space-y-6 hover:border-brand/50 transition-colors">
+                <div class="w-14 h-14 rounded-2xl bg-brand/10 border border-brand/20 flex items-center justify-center text-brand text-2xl font-bold">🏡</div>
+                <div class="space-y-2">
+                    <span class="text-xs font-bold text-brand uppercase tracking-wider">Division 04</span>
+                    <h3 id="cms-div4-title" class="text-2xl font-bold text-white">Homestay Division</h3>
+                </div>
+                <p id="cms-div4-desc" class="text-gray-300 text-sm leading-relaxed">
+                    Providing comfortable accommodation and lodging management, cleanliness, and top-tier hospitality services for every guest or client stopping by.
+                </p>
+                <div class="pt-4 border-t border-brand-border flex items-center justify-between text-xs text-gray-400">
+                    <span id="cms-div4-status">Status: Active & Operating</span>
+                    <a href="contact.html" class="text-brand hover:underline font-medium">Contact Division →</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t border-brand-border bg-brand-card mt-20 py-8 text-center text-xs text-gray-500">
+        <p>© 2026 Akiyama Corporation. All Rights Reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

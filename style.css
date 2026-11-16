@@ -1,0 +1,61 @@
+/* Google Font Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Pengaturan Dasar & Background Modern Tidak Polos */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #060807 !important;
+    background-image: 
+        radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.05) 0%, transparent 45%),
+        linear-gradient(to right, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    background-attachment: fixed;
+    color: #F3F4F6;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+/* Efek Glassmorphism untuk Kartu & Kontainer */
+.bg-brand-card {
+    background-color: rgba(16, 18, 17, 0.75) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Efek Glassmorphism untuk Navbar Atas */
+header.sticky {
+    background-color: rgba(6, 8, 7, 0.85) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(16, 185, 129, 0.15) !important;
+}
+
+/* Efek Hover Bercahaya pada Tombol & Kartu */
+.group:hover, .menu-card:hover {
+    box-shadow: 0 0 25px rgba(16, 185, 129, 0.2);
+}
+
+/* Kustomisasi Scrollbar agar selaras dengan tema gelap */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #060807;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1a2e25;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #10B981;
+}

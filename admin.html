@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - AKIYAMA CORPORATION</title>
+    <style>
+        /* Reset & Tema Dasar Hitam Gelap */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Inter, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #090a09; /* Latar belakang hitam pekat */
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 6%;
+            background-color: #090a09;
+            border-bottom: 1px solid #1a211e;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+
+        .logo-box {
+            width: 44px;
+            height: 44px;
+            background-color: #0d2119;
+            border: 1px solid #164432;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px;
+            transition: border-color 0.2s;
+        }
+
+        .brand:hover .logo-box {
+            border-color: #10b981;
+        }
+
+        .logo-box svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-subtitle {
+            color: #8c9691;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            margin-top: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #8c9691;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #10b981;
+        }
+
+        .btn-nav-admin {
+            background-color: #133125;
+            color: #10b981;
+            border: 1px solid #10b981;
+            padding: 9px 22px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-nav-admin:hover {
+            background-color: #163b2c;
+        }
+
+        /* --- AREA KONTEN UTAMA --- */
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        /* Card Login */
+        .admin-card {
+            background-color: #101211;
+            border: 1px solid #1d2622;
+            padding: 36px;
+            border-radius: 14px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .admin-card h2 {
+            color: #ffffff;
+            font-size: 22px;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        .admin-card p.subtitle {
+            color: #8c9691;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #a3ada8;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            background-color: #090a09;
+            border: 1px solid #222c28;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #10b981;
+            outline: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: #10b981;
+            border: none;
+            color: #05140e;
+            font-weight: 700;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 6px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: #0ea572;
+        }
+
+        .error-msg {
+            color: #f87171;
+            background-color: rgba(248, 113, 113, 0.1);
+            border: 1px solid rgba(248, 113, 113, 0.2);
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 16px;
+            display: none;
+        }
+
+        /* Responsif untuk layar HP */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <nav class="navbar">
+        <a href="home.html" class="brand">
+            <div class="logo-box">
+                <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="akiyamaSwooshAdmin" x1="12" y1="88" x2="108" y2="22" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#059669" />
+                            <stop offset="50%" stop-color="#10B981" />
+                            <stop offset="100%" stop-color="#6EE7B7" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M24 27C46 18 74 18 96 27V63C96 86 78 100 60 109C42 100 24 86 24 63V27Z" stroke="#10B981" stroke-width="5.5" stroke-linejoin="round"/>
+                    <path d="M60 21L41 64L53 59L60 42L67 52L76 47L60 21Z" fill="#10B981"/>
+                    <path d="M36 75L27 94H43L49 80L36 75Z" fill="#10B981"/>
+                    <path d="M71 66L82 94H96L81 59L71 66Z" fill="#10B981"/>
+                    <path d="M16 93C13 83 22 72 45 64C71 55 94 42 106 16C101 44 82 62 49 74C29 81 20 87 16 93Z" fill="url(#akiyamaSwooshAdmin)"/>
+                </svg>
+            </div>
+            <div class="brand-text">
+                <span class="brand-title">AKIYAMA</span>
+                <span class="brand-subtitle">CORPORATION</span>
+            </div>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="division.html">Division</a></li>
+            <li><a href="structure.html">Structure</a></li>
+            <li><a href="location.html">Location</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <a href="admin.html" class="btn-nav-admin">Admin Panel</a>
+    </nav>
+
+    <!-- Area Konten Tengah -->
+    <main class="main-content">
+        
+        <!-- Form Login Admin -->
+        <div class="admin-card">
+            <h2>Admin Access</h2>
+            <p class="subtitle">Masukkan kredensial AKIYAMA CORPORATION</p>
+
+            <form onsubmit="event.preventDefault(); handleLogin();">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Masukkan username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Masukkan password" required>
+                </div>
+                <button type="submit" class="btn-submit">Masuk ke Control Panel</button>
+            </form>
+
+            <div class="error-msg" id="errorMsg">Username atau Password tidak valid!</div>
+        </div>
+
+    </main>
+
+    <script>
+        // Jika sudah dalam keadaan login, otomatis langsung masuk ke control.html
+        window.onload = function() {
+            if (sessionStorage.getItem('isAdminLoggedIn') === 'true') {
+                window.location.href = 'control.html';
+            }
+        };
+
+        function handleLogin() {
+            const userInput = document.getElementById('username').value;
+            const passInput = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (userInput === 'ACORP' && passInput === 'Akiyama27052008') {
+                sessionStorage.setItem('isAdminLoggedIn', 'true');
+                errorMsg.style.display = 'none';
+                window.location.href = 'control.html';
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        }
+    </script>
+
+</body>
+</html>
